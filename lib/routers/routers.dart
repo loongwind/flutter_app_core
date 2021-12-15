@@ -1,3 +1,4 @@
+import 'package:flutter_app_core/pages/counter/binding.dart';
 import 'package:flutter_app_core/pages/counter/view.dart';
 import 'package:get/get.dart';
  
@@ -7,6 +8,10 @@ class RouteGet {
  
   ///pages map 
   static final List<GetPage> getPages = [ 
-    GetPage(name: main, page: () => CounterPage()),
+    GetPage(
+        name: main,
+        page: () => CounterPage(),
+        binding: CounterBinding()
+    ),
   ]; 
 }
