@@ -1,16 +1,5 @@
-# flutter_app_core
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+> Flutter 应用框架搭建系列文章：
+> - [Flutter应用框架搭建(一)GetX集成及使用详解](https://juejin.cn/post/7039637076962181157)
+> - [Flutter应用框架搭建(二)屏幕适配](https://juejin.cn/post/7041021257562718239)
+> - [Flutter应用框架搭建(三) json数据解析]()
