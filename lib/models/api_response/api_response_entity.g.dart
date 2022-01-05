@@ -1,8 +1,8 @@
 import 'package:flutter_app_core/generated/json/base/json_convert_content.dart';
 import 'package:flutter_app_core/models/api_response/api_response_entity.dart';
 
-ApiResponseEntity<T> $ApiResponseEntityFromJson<T>(Map<String, dynamic> json) {
-	final ApiResponseEntity<T> apiResponseEntity = ApiResponseEntity<T>();
+ApiResponse<T> $ApiResponseFromJson<T>(Map<String, dynamic> json) {
+	final ApiResponse<T> apiResponseEntity = ApiResponse<T>();
 	final int? code = jsonConvert.convert<int>(json['code']);
 	if (code != null) {
 		apiResponseEntity.code = code;
@@ -18,7 +18,7 @@ ApiResponseEntity<T> $ApiResponseEntityFromJson<T>(Map<String, dynamic> json) {
 	return apiResponseEntity;
 }
 
-Map<String, dynamic> $ApiResponseEntityToJson(ApiResponseEntity entity) {
+Map<String, dynamic> $ApiResponseToJson(ApiResponse entity) {
 	final Map<String, dynamic> data = <String, dynamic>{};
 	data['code'] = entity.code;
 	data['message'] = entity.message;

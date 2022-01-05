@@ -76,7 +76,7 @@ void main() {
     }
     """;
 
-    ApiResponseEntity<int> response = ApiResponseEntity.fromJson(jsonDecode(userData));
+    ApiResponse<int> response = ApiResponse.fromJson(jsonDecode(userData));
     print(response.data);
 
 
@@ -103,7 +103,7 @@ void main() {
     }
     """;
 
-    ApiResponseEntity<List<UserEntity>> response = ApiResponseEntity.fromJson(jsonDecode(userData));
+    ApiResponse<List<UserEntity>> response = ApiResponse.fromJson(jsonDecode(userData));
     print(response.data?.length);
     print(response.data?.first.name);
 

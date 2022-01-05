@@ -2,17 +2,17 @@ import 'dart:convert';
 import 'package:flutter_app_core/generated/json/base/json_field.dart';
 import 'package:flutter_app_core/models/api_response/api_response_entity.g.dart';
 
-class ApiResponseEntity<T> {
+class ApiResponse<T> {
 
 	int? code;
 	String? message;
 	T? data;
-  
-  ApiResponseEntity();
 
-  factory ApiResponseEntity.fromJson(Map<String, dynamic> json) => $ApiResponseEntityFromJson<T>(json);
+  ApiResponse();
 
-  Map<String, dynamic> toJson() => $ApiResponseEntityToJson(this);
+  factory ApiResponse.fromJson(Map<String, dynamic> json) => $ApiResponseFromJson<T>(json);
+
+  Map<String, dynamic> toJson() => $ApiResponseToJson(this);
 
   @override
   String toString() {

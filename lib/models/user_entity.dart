@@ -9,6 +9,7 @@ class UserEntity {
    String? name;
    @JSONField(name: "AGE")
    int? age;
+   UserEntity? child;
 
   UserEntity();
 
