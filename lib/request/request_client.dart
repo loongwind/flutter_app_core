@@ -6,18 +6,17 @@ import 'package:flutter_app_core/models/api_response/api_response_entity.dart';
 import 'package:flutter_app_core/request/apis.dart';
 import 'package:flutter_app_core/request/config.dart';
 import 'package:flutter_app_core/request/exception.dart';
-import 'package:flutter_app_core/request/exception_handler.dart';
 import 'package:flutter_app_core/request/token_interceptor.dart';
 import 'package:flutter_app_core/utils/type_utils.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-_RequestClient request = _RequestClient();
+RequestClient requestClient = RequestClient();
 
-class _RequestClient {
+class RequestClient {
   late Dio _dio;
 
-  _RequestClient() {
+  RequestClient() {
     _dio = Dio(
         BaseOptions(baseUrl: APIS.baseUrl, connectTimeout: RC.connectTimeout));
     _dio.interceptors.add(TokenInterceptor());
@@ -31,13 +30,9 @@ class _RequestClient {
     Map<String, dynamic>? queryParameters,
     data,
     Map<String, dynamic>? headers,
-    bool showLoading = true,
     bool Function(ApiException)? onError,
   }) async {
     try {
-      if (showLoading) {
-        EasyLoading.show(status: "加载中...");
-      }
       Options options = Options()
         ..method = method
         ..headers = headers;
@@ -46,16 +41,13 @@ class _RequestClient {
 
       Response response = await _dio.request(url,
           queryParameters: queryParameters, data: data, options: options);
-      return _handleRequestResponse<T>(response, onError);
-    } on DioError catch (e) {
-      var exception = ApiException.create(e);
-      print("DioError : ${exception.code}");
-      _callError(onError, exception);
+
+      return _handleRequestResponse<T>(response);
     } catch (e) {
-      var exception = ApiException(-1, RC.unknownException);
-      _callError(onError, exception);
-    } finally {
-      EasyLoading.dismiss();
+      var exception = ApiException.from(e);
+      if(onError?.call(exception) != true){
+        throw exception;
+      }
     }
 
     return null;
@@ -87,7 +79,6 @@ class _RequestClient {
     return request(url,
         queryParameters: queryParameters,
         headers: headers,
-        showLoading: showLoading,
         onError: onError);
   }
 
@@ -104,7 +95,6 @@ class _RequestClient {
         queryParameters: queryParameters,
         data: data,
         headers: headers,
-        showLoading: showLoading,
         onError: onError);
   }
 
@@ -121,7 +111,6 @@ class _RequestClient {
         queryParameters: queryParameters,
         data: data,
         headers: headers,
-        showLoading: showLoading,
         onError: onError);
   }
 
@@ -138,39 +127,30 @@ class _RequestClient {
         queryParameters: queryParameters,
         data: data,
         headers: headers,
-        showLoading: showLoading,
         onError: onError);
   }
 
   ///请求响应内容处理
-  T? _handleRequestResponse<T>(
-      Response response, bool Function(ApiException)? onError) {
+  T? _handleRequestResponse<T>(Response response) {
     if (response.statusCode == 200) {
       ApiResponse<T> apiResponse = ApiResponse<T>.fromJson(response.data);
-      return _handleBusinessResponse<T>(apiResponse, onError);
+      return _handleBusinessResponse<T>(apiResponse);
     } else {
+      print("/////");
       var exception = ApiException(response.statusCode, RC.unknownException);
-      _callError(onError, exception);
+      throw exception;
     }
-    return null;
   }
 
   ///业务内容处理
-  T? _handleBusinessResponse<T>(
-      ApiResponse<T> response, bool Function(ApiException)? onError) {
+  T? _handleBusinessResponse<T>(ApiResponse<T> response) {
     if (response.code == RC.successCode) {
       return response.data;
     } else {
       var exception = ApiException(response.code, response.message);
-      _callError(onError, exception);
+      throw exception;
     }
-    return null;
   }
 
-  ///错误回调
-  void _callError(bool Function(ApiException)? onError, ApiException exception) {
-    if (!(onError != null && onError(exception)) && !handleException(exception)) {
-      EasyLoading.showError(exception.message ?? RC.unknownException);
-    }
-  }
+
 }

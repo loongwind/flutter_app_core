@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_app_core/models/api_response/api_response_entity.dart';
+import 'package:flutter_app_core/request/config.dart';
 
 class ApiException implements Exception {
   final String? message;
   final int? code;
+  String? stackInfo;
 
   ApiException([this.code, this.message]);
 
@@ -50,10 +52,23 @@ class ApiException implements Exception {
           }
         } on Exception catch (e) {
           print("----------->$e");
-          return ApiException(-1, "未知错误");
+          return ApiException(-1, RC.unknownException);
         }
       default:
+        print("-------+++---->$error");
         return ApiException(-1, error.message);
+    }
+  }
+
+  factory ApiException.from(dynamic exception){
+    if(exception is DioError){
+      return ApiException.create(exception);
+    } if(exception is ApiException){
+      return exception;
+    } else {
+      var apiException = ApiException(-1, RC.unknownException);
+      apiException.stackInfo = exception?.toString();
+      return apiException;
     }
   }
 }

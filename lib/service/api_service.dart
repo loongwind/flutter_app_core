@@ -10,6 +10,9 @@ class ApiService extends GetxService{
 
 
   Future<UserEntity?> login(LoginParams params, {onError}){
-    return request.post<UserEntity>(APIS.login, data: params, onError: onError);
+    return requestClient.post<UserEntity>(APIS.login, data: params, onError: onError);
+  }
+  Future<UserEntity?> test(){
+    return requestClient.post<UserEntity>(APIS.test);
   }
 }
