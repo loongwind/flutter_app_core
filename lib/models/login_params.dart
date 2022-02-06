@@ -6,13 +6,8 @@ import 'package:flutter_app_core/generated/json/login_params.g.dart';
 @JsonSerializable()
 class LoginParams {
 
-	String? account;
-	String? code;
-	String? grantType;
-	String? key;
+	String? username;
 	String? password;
-	String? refreshToken;
-	String? tenant;
 
   LoginParams();
 

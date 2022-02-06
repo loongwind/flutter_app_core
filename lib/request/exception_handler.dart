@@ -15,9 +15,7 @@ bool handleException(ApiException exception, {bool Function(ApiException)? onErr
     ///todo to login
     return true;
   }
-
-  print(exception.stackInfo);
-  EasyLoading.showError(exception.message ?? RC.unknownException);
+  EasyLoading.showError(exception.message ?? ApiException.unknownException);
 
   return false;
 }

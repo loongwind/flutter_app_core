@@ -17,16 +17,31 @@ class CounterPage extends StatelessWidget {
       maxHeight: MediaQuery.of(context).size.height
     ),
     designSize: const Size(360, 690),
+    context: Get.context,
     orientation: Orientation.portrait);
     return  Scaffold(
       appBar: AppBar(
-        title: const Text("Counter"),
+        title: const Text("Test"),
       ),
-      body: Center(
-        child: GetBuilder<CounterController>(builder: (controller) {
-          return Text("${SR.hello.tr} : ${state.count}", style: TextStyle(fontSize: 50.sp),);
-        }),
-      ),
+      body: GetBuilder<CounterController>(builder: (controller) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Text("${SR.hello.tr} : ${state.count}", style: TextStyle(fontSize: 50.sp),),
+              ElevatedButton(onPressed: () => controller.login("123456"), child: const Text("正常登录")),
+              ElevatedButton(onPressed: () => controller.login("654321"), child: const Text("错误登录")),
+              Text("登录用户：${state.user?.username ?? ""}", style: TextStyle(fontSize: 20.sp),),
+              ElevatedButton(onPressed: () => controller.loginError(false), child: const Text("异常处理 返回 false")),
+              ElevatedButton(onPressed: () => controller.loginError(true), child: const Text("异常处理 返回 true")),
+              Text("错误信息：${state.errorMessage ?? ""}", style: TextStyle(fontSize: 20.sp),),
+              ElevatedButton(onPressed: () => controller.loginLoading(true), child: const Text("显示loading")),
+              ElevatedButton(onPressed: () => controller.loginLoading(false), child: const Text("不显示loading")),
+
+            ],
+          ),
+        );
+      }),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => controller.increase(),

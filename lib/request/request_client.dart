@@ -18,7 +18,7 @@ class RequestClient {
 
   RequestClient() {
     _dio = Dio(
-        BaseOptions(baseUrl: APIS.baseUrl, connectTimeout: RC.connectTimeout));
+        BaseOptions(baseUrl: RequestConfig.baseUrl, connectTimeout: RequestConfig.connectTimeout));
     _dio.interceptors.add(TokenInterceptor());
     _dio.interceptors.add(PrettyDioLogger(
         requestHeader: true, requestBody: true, responseHeader: true));
@@ -37,12 +37,12 @@ class RequestClient {
         ..method = method
         ..headers = headers;
 
-      data = _convertData(data);
+      data = _convertRequestData(data);
 
       Response response = await _dio.request(url,
           queryParameters: queryParameters, data: data, options: options);
 
-      return _handleRequestResponse<T>(response);
+      return _handleResponse<T>(response);
     } catch (e) {
       var exception = ApiException.from(e);
       if(onError?.call(exception) != true){
@@ -53,18 +53,9 @@ class RequestClient {
     return null;
   }
 
-  _convertData(data) {
-     if (data != null && !isBaseType(data) && data is! Map) {
-      if(data is List){
-        data = data.map((e){
-          if(isBaseType(e)){
-            return e;
-          }
-          return jsonDecode(e.toString());
-        }).toList();
-      }else{
-        data = jsonDecode(data.toString());
-      }
+  _convertRequestData(data) {
+    if (data != null) {
+      data = jsonDecode(jsonEncode(data));
     }
     return data;
   }
@@ -131,26 +122,23 @@ class RequestClient {
   }
 
   ///请求响应内容处理
-  T? _handleRequestResponse<T>(Response response) {
+  T? _handleResponse<T>(Response response) {
     if (response.statusCode == 200) {
       ApiResponse<T> apiResponse = ApiResponse<T>.fromJson(response.data);
       return _handleBusinessResponse<T>(apiResponse);
     } else {
-      print("/////");
-      var exception = ApiException(response.statusCode, RC.unknownException);
+      var exception = ApiException(response.statusCode, ApiException.unknownException);
       throw exception;
     }
   }
 
   ///业务内容处理
   T? _handleBusinessResponse<T>(ApiResponse<T> response) {
-    if (response.code == RC.successCode) {
+    if (response.code == RequestConfig.successCode) {
       return response.data;
     } else {
       var exception = ApiException(response.code, response.message);
       throw exception;
     }
   }
-
-
 }

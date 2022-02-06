@@ -1,53 +1,22 @@
 PODS:
-  - BaiduMapKit/Base (6.3.0)
-  - BaiduMapKit/Utils (6.3.0):
-    - BaiduMapKit/Base
-  - BMKLocationKit (2.0.0)
   - Flutter (1.0.0)
-  - flutter_baidu_mapapi_base (3.0.0):
-    - BaiduMapKit/Utils (= 6.3.0)
-    - Flutter
-  - flutter_bmflocation (1.0.3):
-    - BMKLocationKit
-    - Flutter
-  - "permission_handler (5.1.0+2)":
-    - Flutter
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - flutter_baidu_mapapi_base (from `.symlinks/plugins/flutter_baidu_mapapi_base/ios`)
-  - flutter_bmflocation (from `.symlinks/plugins/flutter_bmflocation/ios`)
-  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
-
-SPEC REPOS:
-  trunk:
-    - BaiduMapKit
-    - BMKLocationKit
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  flutter_baidu_mapapi_base:
-    :path: ".symlinks/plugins/flutter_baidu_mapapi_base/ios"
-  flutter_bmflocation:
-    :path: ".symlinks/plugins/flutter_bmflocation/ios"
-  permission_handler:
-    :path: ".symlinks/plugins/permission_handler/ios"
   webview_flutter_wkwebview:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
-  BaiduMapKit: 48fc90c7dd7f3c10aed8745c22584ede8003221f
-  BMKLocationKit: 097814ef672b1e57e86e6c1968d7892fb78002bf
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  flutter_baidu_mapapi_base: fbec71f32dd2d46329a0804aaf94bb8521bdb941
-  flutter_bmflocation: 12f1ba91bae4b16d78d4f475023e0254ed351f1c
-  permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   webview_flutter_wkwebview: 005fbd90c888a42c5690919a1527ecc6649e1162
 
-PODFILE CHECKSUM: 780baf94e06f524ef17dc5019edc271a57ea0591
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 
 COCOAPODS: 1.11.2

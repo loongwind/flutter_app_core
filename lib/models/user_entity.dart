@@ -4,12 +4,9 @@ import 'package:flutter_app_core/generated/json/user_entity.g.dart';
 
 @JsonSerializable()
 class UserEntity {
-   String? id;
-   @JSONField(serialize: false)
-   String? name;
-   @JSONField(name: "AGE")
+   String? userId;
+   String? username;
    int? age;
-   UserEntity? child;
 
   UserEntity();
 

@@ -105,9 +105,23 @@ void main() {
 
     ApiResponse<List<UserEntity>> response = ApiResponse.fromJson(jsonDecode(userData));
     print(response.data?.length);
-    print(response.data?.first.name);
+    print(response.data?.first.username);
 
 
 
+  });
+
+
+  test("jsonEncode", (){
+
+    var data = [{
+      "a":"a",
+      "b":"b",
+      "c":1,
+      "d":UserEntity()
+    }];
+
+    print(jsonEncode(data));
+    print(jsonDecode(jsonEncode(data)));
   });
 }

@@ -3,13 +3,14 @@ import 'package:flutter_app_core/models/api_response/api_response_entity.dart';
 import 'package:flutter_app_core/request/config.dart';
 
 class ApiException implements Exception {
+  static const unknownException = "未知错误";
   final String? message;
   final int? code;
   String? stackInfo;
 
   ApiException([this.code, this.message]);
 
-  factory ApiException.create(DioError error) {
+  factory ApiException.fromDioError(DioError error) {
     switch (error.type) {
       case DioErrorType.cancel:
         return BadRequestException(-1, "请求取消");
@@ -21,11 +22,14 @@ class ApiException implements Exception {
         return BadRequestException(-1, "响应超时");
       case DioErrorType.response:
         try {
-          int? errCode = error.response?.statusCode!;
+
+          /// http错误码带业务错误信息
           ApiResponse apiResponse = ApiResponse.fromJson(error.response?.data);
           if(apiResponse.code != null){
             return ApiException(apiResponse.code, apiResponse.message);
           }
+
+          int? errCode = error.response?.statusCode;
           switch (errCode) {
             case 400:
               return BadRequestException(errCode, "请求语法错误");
@@ -46,27 +50,24 @@ class ApiException implements Exception {
             case 505:
               return UnauthorisedException(errCode!, "不支持HTTP协议请求");
             default:
-              print("=========");
               return ApiException(
                   errCode, error.response?.statusMessage ?? '未知错误');
           }
         } on Exception catch (e) {
-          print("----------->$e");
-          return ApiException(-1, RC.unknownException);
+          return ApiException(-1, unknownException);
         }
       default:
-        print("-------+++---->$error");
         return ApiException(-1, error.message);
     }
   }
 
   factory ApiException.from(dynamic exception){
     if(exception is DioError){
-      return ApiException.create(exception);
+      return ApiException.fromDioError(exception);
     } if(exception is ApiException){
       return exception;
     } else {
-      var apiException = ApiException(-1, RC.unknownException);
+      var apiException = ApiException(-1, unknownException);
       apiException.stackInfo = exception?.toString();
       return apiException;
     }
