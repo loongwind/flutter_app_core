@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_app_core/models/api_response/api_response_entity.dart';
+import 'package:flutter_app_core/models/api_response/raw_data.dart';
 import 'package:flutter_app_core/request/apis.dart';
 import 'package:flutter_app_core/request/config.dart';
 import 'package:flutter_app_core/request/exception.dart';
@@ -124,8 +125,14 @@ class RequestClient {
   ///请求响应内容处理
   T? _handleResponse<T>(Response response) {
     if (response.statusCode == 200) {
-      ApiResponse<T> apiResponse = ApiResponse<T>.fromJson(response.data);
-      return _handleBusinessResponse<T>(apiResponse);
+      if(T.toString() == (RawData).toString()){
+        RawData raw = RawData();
+        raw.value = response.data;
+        return raw as T;
+      }else {
+        ApiResponse<T> apiResponse = ApiResponse<T>.fromJson(response.data);
+        return _handleBusinessResponse<T>(apiResponse);
+      }
     } else {
       var exception = ApiException(response.statusCode, ApiException.unknownException);
       throw exception;

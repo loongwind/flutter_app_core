@@ -37,6 +37,7 @@ class CounterPage extends StatelessWidget {
               Text("错误信息：${state.errorMessage ?? ""}", style: TextStyle(fontSize: 20.sp),),
               ElevatedButton(onPressed: () => controller.loginLoading(true), child: const Text("显示loading")),
               ElevatedButton(onPressed: () => controller.loginLoading(false), child: const Text("不显示loading")),
+              ElevatedButton(onPressed: () => controller.switchApi(), child: const Text("切换环境")),
 
             ],
           ),

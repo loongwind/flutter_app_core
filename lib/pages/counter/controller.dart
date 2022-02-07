@@ -2,8 +2,10 @@
 import 'package:flutter_app_core/models/login_params.dart';
 import 'package:flutter_app_core/models/user_entity.dart';
 import 'package:flutter_app_core/request/apis.dart';
+import 'package:flutter_app_core/request/config.dart';
 import 'package:flutter_app_core/request/request.dart';
 import 'package:flutter_app_core/request/request_client.dart';
+import 'package:flutter_app_core/routers/routers.dart';
 import 'package:flutter_app_core/service/api_service.dart';
 import 'package:flutter_app_core/utils/loading.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -55,6 +57,11 @@ class CounterController extends GetxController {
     update();
   }, showLoading: showLoading);
 
+
+  void switchApi(){
+    RequestConfig.baseUrl = "https://www.fastmock.site/mock/aaaaaaa";
+    requestClient = RequestClient();
+  }
   @override
   void onReady() {
     // TODO: implement onReady

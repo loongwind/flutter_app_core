@@ -1,0 +1,3 @@
+class RawData{
+  dynamic value;
+}
