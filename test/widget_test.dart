@@ -12,8 +12,11 @@ import 'package:flutter_app_core/generated/json/base/json_convert_content.dart';
 import 'package:flutter_app_core/models/api_response/api_response_entity.dart';
 import 'package:flutter_app_core/models/user_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/intl.dart';
 
 import 'package:flutter_app_core/main.dart';
+
+import 'json.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
@@ -124,4 +127,24 @@ void main() {
     print(jsonEncode(data));
     print(jsonDecode(jsonEncode(data)));
   });
+
+  test("json_juejin", (){
+      var data = jsonDecode(juejinData);
+      var result = [];
+      for(var item in data["data"]){
+
+        DateTime date = DateTime.fromMillisecondsSinceEpoch(int.parse(item["article_info"]["rtime"])*1000);
+        var resultItem = {
+          "title" : item["article_info"]["title"],
+          "author" : "loongwind",
+          "cover" : item["article_info"]["cover_image"],
+          "des" : item["article_info"]["brief_content"],
+          "createTime" : DateFormat("yyyy-MM-dd HH:mm").format(date),
+          "url" : "https://juejin.cn/post/${item["article_info"]["article_id"]}",
+        };
+        result.add(resultItem);
+      }
+      print(jsonEncode(result));
+  });
+
 }
