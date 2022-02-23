@@ -1,5 +1,6 @@
 import 'package:flutter_app_core/generated/json/base/json_convert_content.dart';
 import 'package:flutter_app_core/models/api_response/api_response_entity.dart';
+import 'package:flutter_app_core/models/api_response/paging_data.g.dart';
 
 ApiResponse<T> $ApiResponseFromJson<T>(Map<String, dynamic> json) {
 	final ApiResponse<T> apiResponseEntity = ApiResponse<T>();
@@ -11,7 +12,16 @@ ApiResponse<T> $ApiResponseFromJson<T>(Map<String, dynamic> json) {
 	if (message != null) {
 		apiResponseEntity.message = message;
 	}
-	final T? data = jsonConvert.convert<T>(json['data']);
+	String type = T.toString();
+	T? data;
+	print("type:$type");
+	if(json['data'] != null){
+		if(type.startsWith("PagingData<")){
+			data = pagingDataFromJsonSingle<T>(json['data']);
+		}else{
+			data = jsonConvert.convert<T>(json['data']);
+		}
+	}
 	if (data != null) {
 		apiResponseEntity.data = data;
 	}
