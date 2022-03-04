@@ -6,3 +6,4 @@
 > - [Flutter应用框架搭建(三)Json数据解析](https://juejin.cn/post/7043721908801503269)
 > - [Flutter应用框架搭建(四) 网络请求封装](https://juejin.cn/post/7061806192980410382)
 > - [Flutter快速开发——列表分页加载封装](https://juejin.cn/post/7067455179506860069)
+> - [Flutter之事件节流、防抖封装](https://juejin.cn/post/7071074352837443614)
