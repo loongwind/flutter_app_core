@@ -12,13 +12,9 @@ class CounterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(BoxConstraints(
-      maxWidth: MediaQuery.of(context).size.width,
-      maxHeight: MediaQuery.of(context).size.height
-    ),
-    designSize: const Size(360, 690),
-    context: Get.context,
-    orientation: Orientation.portrait);
+    ScreenUtil.init(
+        Get.context!,
+    designSize: const Size(360, 690));
     return  Scaffold(
       appBar: AppBar(
         title: const Text("Test"),
