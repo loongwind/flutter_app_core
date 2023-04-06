@@ -31,6 +31,7 @@ class RequestClient {
     Map<String, dynamic>? queryParameters,
     data,
     Map<String, dynamic>? headers,
+  Function(ApiResponse<T>)? onResponse,
     bool Function(ApiException)? onError,
   }) async {
     try {
@@ -43,7 +44,7 @@ class RequestClient {
       Response response = await _dio.request(url,
           queryParameters: queryParameters, data: data, options: options);
 
-      return _handleResponse<T>(response);
+      return _handleResponse<T>(response, onResponse);
     } catch (e) {
       var exception = ApiException.from(e);
       if(onError?.call(exception) != true){
@@ -66,11 +67,13 @@ class RequestClient {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
     bool showLoading = true,
+    Function(ApiResponse<T>)? onResponse,
     bool Function(ApiException)? onError,
   }) {
     return request(url,
         queryParameters: queryParameters,
         headers: headers,
+        onResponse: onResponse,
         onError: onError);
   }
 
@@ -79,7 +82,8 @@ class RequestClient {
     Map<String, dynamic>? queryParameters,
     data,
     Map<String, dynamic>? headers,
-    bool showLoading = true,
+    bool showLoading = true, 
+    Function(ApiResponse<T>)? onResponse,
     bool Function(ApiException)? onError,
   }) {
     return request(url,
@@ -87,6 +91,7 @@ class RequestClient {
         queryParameters: queryParameters,
         data: data,
         headers: headers,
+        onResponse: onResponse,
         onError: onError);
   }
 
@@ -96,6 +101,7 @@ class RequestClient {
         data,
         Map<String, dynamic>? headers,
         bool showLoading = true,
+        Function(ApiResponse<T>)? onResponse,
         bool Function(ApiException)? onError,
       }) {
     return request(url,
@@ -103,6 +109,7 @@ class RequestClient {
         queryParameters: queryParameters,
         data: data,
         headers: headers,
+        onResponse: onResponse,
         onError: onError);
   }
 
@@ -112,6 +119,7 @@ class RequestClient {
         data,
         Map<String, dynamic>? headers,
         bool showLoading = true,
+        Function(ApiResponse<T>)? onResponse,
         bool Function(ApiException)? onError,
       }) {
     return request(url,
@@ -119,11 +127,12 @@ class RequestClient {
         queryParameters: queryParameters,
         data: data,
         headers: headers,
+        onResponse: onResponse,
         onError: onError);
   }
 
   ///请求响应内容处理
-  T? _handleResponse<T>(Response response) {
+  T? _handleResponse<T>(Response response, Function(ApiResponse<T>)? onResponse,) {
     if (response.statusCode == 200) {
       if(T.toString() == (RawData).toString()){
         RawData raw = RawData();
@@ -131,6 +140,7 @@ class RequestClient {
         return raw as T;
       }else {
         ApiResponse<T> apiResponse = ApiResponse<T>.fromJson(response.data);
+        onResponse?.call(apiResponse);
         return _handleBusinessResponse<T>(apiResponse);
       }
     } else {

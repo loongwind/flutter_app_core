@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      initialRoute: RouteGet.article,
+      initialRoute: RouteGet.main,
       getPages: RouteGet.getPages,
       translations: StringRes(),
       locale: const Locale('zh', 'CN'),

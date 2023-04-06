@@ -1,4 +1,5 @@
 
+import 'package:flutter_app_core/models/api_response/api_response_entity.dart';
 import 'package:flutter_app_core/models/login_params.dart';
 import 'package:flutter_app_core/models/user_entity.dart';
 import 'package:flutter_app_core/request/apis.dart';
@@ -27,7 +28,9 @@ class CounterController extends GetxController {
     LoginParams params = LoginParams();
     params.username = "loongwind";
     params.password = password;
-    UserEntity? user = await requestClient.post<UserEntity>(APIS.login, data: params);
+    UserEntity? user = await requestClient.post<UserEntity>(APIS.login, data: params, onResponse: (ApiResponse<UserEntity> response){
+      print("response:$response");
+    });
     state.user = user;
     update();
   });
@@ -41,6 +44,8 @@ class CounterController extends GetxController {
       print(state.errorMessage);
       update();
       return errorHandler;
+    }, onResponse: (ApiResponse<UserEntity> response){
+      print("response:$response");
     });
     state.user = user;
     print("-------------${user?.username ?? "登录失败"}");
